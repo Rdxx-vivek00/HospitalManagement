@@ -1,30 +1,49 @@
 package com.Workspace.spring.HospitalManagement.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Entity
+@Table(
+        name = "Patient",
+            uniqueConstraints = {  @UniqueConstraint(name = "unique_patient_email",columnNames = {"email"} )}
+)
+@Builder
 public class Patient{
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(nullable=false,length = 40)
     private String name;
+
 
     @ToString.Exclude
     private LocalDate birthDate;
 
+     @Column(nullable = false,unique = true)
     private String email;
 
     private String gender;
 
     private String bloodGroup;
+
+    public Patient() {
+    }
+
+    public Patient(Long id, String name, LocalDate birthDate, String email, String gender, String bloodGroup) {
+        this.id = id;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.email = email;
+        this.gender = gender;
+        this.bloodGroup = bloodGroup;
+    }
 
     public String getBloodGroup() {
         return bloodGroup;
