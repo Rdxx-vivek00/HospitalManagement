@@ -1,19 +1,25 @@
 package com.Workspace.spring.HospitalManagement.entity;
 
+import com.Workspace.spring.HospitalManagement.entity.type.BloodGroupType;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity(name="Patient")
 @Table(
-        name = "Patient",
+        name = "patient",
             uniqueConstraints = {  @UniqueConstraint(name = "unique_patient_email",columnNames = {"email"} )}
-)
-@Builder
+            )
+ @Builder
 public class Patient{
+
 
 
     @Id
@@ -31,80 +37,12 @@ public class Patient{
 
     private String gender;
 
-    private String bloodGroup;
+    @Enumerated(EnumType.STRING)
+    private BloodGroupType bloodGroup;
 
-    public Patient() {
-    }
-
-    public Patient(Long id, String name, LocalDate birthDate, String email, String gender, String bloodGroup) {
-        this.id = id;
-        this.name = name;
-        this.birthDate = birthDate;
-        this.email = email;
-        this.gender = gender;
-        this.bloodGroup = bloodGroup;
-    }
-
-    public String getBloodGroup() {
-        return bloodGroup;
-    }
-
-    public void setBloodGroup(String bloodGroup) {
-        this.bloodGroup = bloodGroup;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    @Override
-    public String toString() {
-        return "Patient{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", birthDate=" + birthDate +
-                ", email='" + email + '\'' +
-                ", gender='" + gender + '\'' +
-                "bloodGroup='" + bloodGroup + '\'' +
-                '}';
-    }
-
+    @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @JoinColumn(name = "patient_insurance_id")
+    private Insurance insurance;
 
 
 }
