@@ -1,10 +1,7 @@
 package com.Workspace.spring.HospitalManagement.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
+@Builder
 public class Insurance {
 
 
@@ -39,20 +37,8 @@ public class Insurance {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToOne(mappedBy = "insurance") // inverse side
+    @OneToOne(mappedBy = "insurance")//inverse side
     private Patient patient;
 
 
-
-
-    @Override
-    public String toString() {
-        return "insurance{" +
-                "id=" + id +
-                ", policyNumber='" + policyNumber + '\'' +
-                ", provider='" + provider + '\'' +
-                ", validUntil=" + validUntil +
-                ", createdAt=" + createdAt +
-                '}';
-    }
 }
